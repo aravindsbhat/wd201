@@ -33,13 +33,13 @@ const todoList = () => {
     list.forEach((item) => {
       s += "[";
       s += item.completed ? "x" : " ";
-      s += "]";
+      s += "] ";
       s += item.title;
       s += " ";
       s += item.dueDate == formattedDate(todays) ? "" : item.dueDate;
       s += "\n";
     });
-    return s;
+    return s.trim();
   };
 
   return {
