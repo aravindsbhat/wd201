@@ -18,7 +18,7 @@ function verifyAge(element) {
   let age = today.getFullYear() - birthDate.getFullYear();
   if (age < 18 || age > 55) {
     element.setCustomValidity(
-      "You must be between 18 and 55 years of age to continue."
+      "You must be between 18 and 55 years of age to continue.",
     );
     element.reportValidity();
   } else element.setCustomValidity("");
