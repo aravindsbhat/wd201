@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const todoList = () => {
   all = [];
   const add = (todoItem) => {
@@ -24,6 +25,10 @@ const todoList = () => {
     return all.filter((item) => {
       return item.dueDate > formattedDate(todays);
     });
+  };
+
+  const formattedDate = (date) => {
+    return date.toISOString().split("T")[0];
   };
 
   const toDisplayableList = (list) => {
