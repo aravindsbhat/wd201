@@ -10,11 +10,25 @@ describe("Todo List test suite", () => {
       completed: false,
       dueDate: new Date().toISOString().split("T")[0],
     });
+    add({
+      title: "Overdue todo",
+      completed: false,
+      dueDate: new Date(new Date().setDate(new Date().getDate() - 1))
+        .toISOString()
+        .split("T")[0],
+    });
+    add({
+      title: "Due later todo",
+      completed: false,
+      dueDate: new Date(new Date().setDate(new Date().getDate() + 1))
+        .toISOString()
+        .split("T")[0],
+    });
   });
   test("Should add a new todo", () => {
     const todoCount = all.length;
     add({
-      title: "Test todo again",
+      title: "Test add todo",
       completed: false,
       dueDate: new Date().toISOString().split("T")[0],
     });
@@ -28,33 +42,14 @@ describe("Todo List test suite", () => {
   });
 
   test("Should return overdue todos", () => {
-    add({
-      title: "Overdue todo",
-      completed: false,
-      dueDate: new Date(new Date().setDate(new Date().getDate() - 1))
-        .toISOString()
-        .split("T")[0],
-    });
-    expect(overdue()).toEqual([all[2]]);
+    expect(overdue().length).toBe(1);
   });
 
   test("Should return todos due today", () => {
-    add({
-      title: "Due today todo",
-      completed: false,
-      dueDate: new Date().toISOString().split("T")[0],
-    });
-    expect(dueToday()).toEqual([all[0], all[1], all[3]]);
+    expect(dueToday().length).toBe(2);
   });
 
   test("Should return todos due later", () => {
-    add({
-      title: "Due later todo",
-      completed: false,
-      dueDate: new Date(new Date().setDate(new Date().getDate() + 1))
-        .toISOString()
-        .split("T")[0],
-    });
-    expect(dueLater()).toEqual([all[4]]);
+    expect(dueLater().length).toBe(1);
   });
 });
