@@ -2,6 +2,7 @@
 const request = require("supertest");
 const db = require("../models/index");
 const app = require("../app");
+//const { default: test } = require("node:test");
 
 let server, agent;
 
@@ -24,7 +25,7 @@ describe("Todo test suite", () => {
     });
     expect(response.statusCode).toBe(200);
     expect(response.header["content-type"]).toBe(
-      "application/json; charset=utf-8"
+      "application/json; charset=utf-8",
     );
     const parseResponse = JSON.parse(response.text);
     expect(parseResponse.id).toBeDefined();
@@ -44,5 +45,21 @@ describe("Todo test suite", () => {
       .send();
     const parsedUpdateResponse = JSON.parse(markComplete.text);
     expect(parsedUpdateResponse.completed).toBe(true);
+  });
+
+  test("Delete a todo", async () => {
+    const response = await agent.post("/todos").send({
+      title: "Buy milk",
+      dueDate: new Date().toISOString(),
+      completed: false,
+    });
+
+    const parsedResponse = JSON.parse(response.text);
+    const todoId = parsedResponse.id;
+
+    const deleteResponse = await agent.delete(`/todos/${todoId}`);
+    expect(deleteResponse.text).toBe("true");
+    const checkResponse = await agent.get(`/todos/${todoId}`);
+    expect(checkResponse.statusCode).toBe(404);
   });
 });

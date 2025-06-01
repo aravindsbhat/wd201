@@ -12,6 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
 
+    static getAllTodos() {
+      return this.findAll({
+        order: [["dueDate", "ASC"]],
+      });
+    }
+
     static addTodo({ title, dueDate }) {
       return this.create({
         title: title,
@@ -21,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     }
     markAsCompleted() {
       return this.update({ completed: true });
+    }
+
+    deleteTodo() {
+      return this.destroy();
     }
   }
   Todo.init(
@@ -32,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Todo",
-    }
+    },
   );
   return Todo;
 };
