@@ -1,9 +1,26 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 const express = require("express");
 const app = express();
+const path = require("path");
 const { Todo } = require("./models");
+const { request } = require("http");
 // const bodyParser = require("body-parser");
 // app.use(bodyParser.json());
 app.use(express.json());
+
+app.set("view engine", "ejs");
+
+app.get("/", async (req, res) => {
+  const allTodos = await Todo.getAllTodos();
+  if (req.accepts("html")) {
+    res.render("index", { allTodos });
+  } else {
+    res.json({ allTodos });
+  }
+});
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/todos", async (req, res) => {
   console.log("Fetching all todos");
