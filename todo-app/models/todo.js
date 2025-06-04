@@ -52,12 +52,21 @@ module.exports = (sequelize, DataTypes) => {
         completed: false,
       });
     }
-    markAsCompleted() {
-      return this.update({ completed: true });
+
+    async markAsCompleted() {
+      return await this.update({ completed: true });
     }
 
-    deleteTodo() {
-      return this.destroy();
+    static async remove(id) {
+      return await this.destroy({
+        where: {
+          id,
+        },
+      });
+    }
+
+    async deleteTodo() {
+      return await this.destroy();
     }
   }
   Todo.init(

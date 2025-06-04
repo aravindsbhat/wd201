@@ -7,7 +7,7 @@ export default defineConfig([
     ignores: ["**/migrations/**", "**/seeders/**", "**/models/**"],
   },
   {
-    files: ["**/*.{js,mjs,cjs}"],
+    files: ["**/*.{js,mjs,cjs,ejs}"],
     plugins: { js },
     extends: ["js/recommended"],
   },

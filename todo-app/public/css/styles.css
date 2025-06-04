@@ -2,7 +2,6 @@ body {
   color: black;
   font-family: "Times New Roman", Courier, monospace;
 }
-.Todo-item:hover .trash-icon{
+.Todo-item:hover .trash-icon {
   display: block;
-  
 }

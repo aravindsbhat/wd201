@@ -5,9 +5,11 @@ const app = express();
 const path = require("path");
 const { Todo } = require("./models");
 const { request } = require("http");
+const { url } = require("inspector");
 // const bodyParser = require("body-parser");
 // app.use(bodyParser.json());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.set("view engine", "ejs");
 
@@ -50,7 +52,7 @@ app.post("/todos", async (req, res) => {
       title: req.body.title,
       dueDate: req.body.dueDate,
     });
-    return res.json(todo);
+    return res.redirect("/");
   } catch (error) {
     console.log(error);
     return res.status(422).json(error);
@@ -72,11 +74,7 @@ app.put("/todos/:id/markAsCompleted", async (req, res) => {
 app.delete("/todos/:id", async (req, res) => {
   console.log("Delete a todo by ID:", req.params.id);
   try {
-    const todo = await Todo.findByPk(req.params.id);
-    if (!todo) {
-      return res.json(false);
-    }
-    await todo.deleteTodo();
+    await Todo.remove(req.params.id);
     return res.json(true);
   } catch (error) {
     console.log(error);
