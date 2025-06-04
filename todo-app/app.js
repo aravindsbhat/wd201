@@ -13,8 +13,16 @@ app.set("view engine", "ejs");
 
 app.get("/", async (req, res) => {
   const allTodos = await Todo.getAllTodos();
+  const overdueCount = await Todo.overdueCount();
+  const dueTodayCount = await Todo.dueTodayCount();
+  const dueLaterCount = await Todo.dueLaterCount();
   if (req.accepts("html")) {
-    res.render("index", { allTodos });
+    res.render("index", {
+      allTodos,
+      overdueCount,
+      dueTodayCount,
+      dueLaterCount,
+    });
   } else {
     res.json({ allTodos });
   }

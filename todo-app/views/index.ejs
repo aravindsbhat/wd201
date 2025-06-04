@@ -3,11 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>To-do app</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
-    <%- include('header.ejs') %>
+    <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+            <%- include('header.ejs') %>
+            <form>
+                <div class="flex gap-2 py-4">
+                    <div class="flex-auto">
+                        <input type="text" placeholder="What's next?" required class="border border-gray-300 rounded text-gray-900 w-full text-sm p-2 "/>
+                    </div>
+                    <div class="flex-auto">
+                        <input type="date" required class="border border-gray-300 rounded text-gray-900 w-full text-sm p-2 leading-4"  />
+                    </div>
+                    <div class="flex-none">
+                        <button type="submit" class="bg-green-600 px-5 py-1.5 text-white rounded font-medium mr-2 mb-2">Add</button>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
     <%- include('todos.ejs') %>
     <%- include('footer.ejs') %>
 

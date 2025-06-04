@@ -1,5 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -10,6 +10,33 @@ module.exports = (sequelize, DataTypes) => {
     // eslint-disable-next-line no-unused-vars
     static associate(models) {
       // define association here
+    }
+
+    static async overdueCount() {
+      const today = new Date().toISOString().split("T")[0];
+      return await this.count({
+        where: {
+          dueDate: { [Op.lt]: today },
+        },
+      });
+    }
+
+    static async dueTodayCount() {
+      const today = new Date().toISOString().split("T")[0];
+      return await this.count({
+        where: {
+          dueDate: today,
+        },
+      });
+    }
+
+    static async dueLaterCount() {
+      const today = new Date().toISOString().split("T")[0];
+      return await this.count({
+        where: {
+          dueDate: { [Op.gt]: today },
+        },
+      });
     }
 
     static getAllTodos() {
