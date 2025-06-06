@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       const today = new Date().toISOString().split("T")[0];
       return await this.count({
         where: {
+          completed: false,
           dueDate: { [Op.lt]: today },
         },
       });
@@ -25,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       const today = new Date().toISOString().split("T")[0];
       return await this.count({
         where: {
+          completed: false,
           dueDate: today,
         },
       });
@@ -34,8 +36,15 @@ module.exports = (sequelize, DataTypes) => {
       const today = new Date().toISOString().split("T")[0];
       return await this.count({
         where: {
+          completed: false,
           dueDate: { [Op.gt]: today },
         },
+      });
+    }
+
+    static async completedCount() {
+      return await this.count({
+        where: { completed: true },
       });
     }
 
@@ -53,8 +62,8 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    async markAsCompleted() {
-      return await this.update({ completed: true });
+    async setCompletionStatus(comp) {
+      return await this.update({ completed: comp });
     }
 
     static async remove(id) {

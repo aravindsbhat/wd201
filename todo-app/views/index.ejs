@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
     <title>To-do app</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="/css/styles.css" rel="stylesheet">
     <script>
-        function updateTodo(id){
-            fetch(`/todos/${id}/markAsCompleted`,{
+        var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        function updateTodo(id,isCompleted){
+            fetch(`/todos/${id}`,{
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({_csrf: token, completed: isCompleted})
     
             }).then((res) => {
                 if (res.ok)
@@ -25,7 +28,8 @@
         function deleteTodo(id) {
             fetch(`/todos/${id}`, {
                 method: 'DELETE',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ "_csrf": token })
             }).then((res) => {
                 if (res.ok) {
                     window.location.reload();
@@ -41,6 +45,7 @@
         <div class="col-start-3 col-span-2">
             <%- include('header.ejs') %>
             <form action="/todos" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="flex gap-2 py-4">
                     <div class="flex-auto">
                         <input type="text" name="title" placeholder="What's next?" required class="border border-gray-300 rounded text-gray-900 w-full text-sm p-2 "/>
