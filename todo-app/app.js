@@ -63,6 +63,7 @@ app.post("/todos", async (req, res) => {
     const todo = await Todo.addTodo({
       title: req.body.title,
       dueDate: req.body.dueDate,
+      csrfToken: req.csrfToken(),
     });
     return res.redirect("/");
   } catch (error) {
