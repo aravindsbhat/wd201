@@ -24,17 +24,21 @@ app.get("/", async (req, res) => {
   const dueTodayCount = await Todo.dueTodayCount();
   const dueLaterCount = await Todo.dueLaterCount();
   const completedCount = await Todo.completedCount();
-  if (req.accepts("html")) {
-    res.render("index", {
-      allTodos,
-      overdueCount,
-      dueTodayCount,
-      dueLaterCount,
-      csrfToken: req.csrfToken(),
-      completedCount,
-    });
-  } else {
-    res.json({ allTodos });
+  try {
+    if (req.accepts("html")) {
+      res.render("index", {
+        allTodos,
+        overdueCount,
+        dueTodayCount,
+        dueLaterCount,
+        csrfToken: req.csrfToken(),
+        completedCount,
+      });
+    } else {
+      res.json({ allTodos });
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 
