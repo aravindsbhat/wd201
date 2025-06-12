@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <link href="/css/styles.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>
+        <%= title %>
+    </title>
+</head>
+<body>
+    <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+            <h6 class="py-4">Signup as a new User</h6>
+            <form action="/users" method="post">
+                <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+                <label for="firstName">First Name:</label>
+                <input type="text" name="firstName" placeholder="First Name" class="border border-gray-300 rounded text-gray-900 py-2 w-full text-sm p-2"/>
+                <label for="lastName">Last Name:</label>
+                <input type="text" name="lastName" placeholder="Last Name" class="border border-gray-300 rounded text-gray-900 w-full py-2 text-sm p-2"/>
+                <label for="email">Email:</label>
+                <input type="email" name="email" placeholder="Email" class="border border-gray-300 rounded text-gray-900 w-full py-2 text-sm p-2 "/>
+                <label for="password">Password:</label><input type="password" name="password" placeholder="Password" required class="border border-gray-300 rounded text-gray-900 py-2 w-full text-sm p-2 "/>
+                <button class="bg-green-600 text-white py-2 px-2 hover:bg-green-800 font-medium cursor-pointer" type="submit">Sign up</button>
+            </form>
+            <% if(messages && messages.error && messages.error.length > 0) { %>
+                <% for(var i = 0; i < messages.error.length; i++) { %>
+                    <li>
+                        <%= messages.error[i] %>
+                    </li>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

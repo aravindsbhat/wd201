@@ -5,3 +5,7 @@ body {
 .Todo-Item:hover .trash-icon {
   display: block;
 }
+
+h6 {
+  font-size: 30px;
+}

@@ -2,13 +2,12 @@
     <div class="flex items-center">
     <h5 class="mr-2">Overdue</h5>
     <div id="count-overdue" class="text-sm text-red-600 font-semibold">
-        <%= overdueCount %> 
+        <%= overdue.length %> 
     </div>
     </div>
     <ul class="list-none">
 
-        <% allTodos.forEach((todo) => {
-            if (!todo.completed && todo.dueDate < new Date().toISOString().split("T")[0]) { %>
+        <% overdue.forEach((todo) => { %>
                 <li class="Todo-Item flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-200">
                     <div class="flex">
                         <input type="checkbox" id="todo-check-<%= todo.id %>" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border" <%=todo.completed?"checked":""%> onclick="updateTodo(<%=todo.id%>,this.checked)">
@@ -24,19 +23,17 @@
 
                     </div>
                 </li>
-            <% } %>
-        <% }) %>
+        <% }); %>
     </ul>
     <div class="flex items-center">
         <h5 class="mr-2">Due Today</h5>
     <div id="count-due-today" class="text-sm text-red-600 font-semibold">
-        <%= dueTodayCount %>
+        <%= dueToday.length %>
     </div>
     </div>
     <ul class="list-none">
     
-        <% allTodos.forEach((todo)=> {
-            if (!todo.completed && todo.dueDate === new Date().toISOString().split("T")[0]) { %>
+        <% dueToday.forEach((todo)=> { %>
                 <li class="Todo-Item flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-200">
                     <div class="flex">
                         <input type="checkbox" id="todo-check-<%= todo.id %>" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border" <%=todo.completed?"checked":""%> onclick="updateTodo(<%=todo.id%>,this.checked)">
@@ -53,19 +50,17 @@
     
                     </div>
                 </li>
-                <% } %>
-                    <% }) %>
+        <% }); %>
     </ul>
     <div class="flex items-center">
         <h5 class="mr-2">Due Later</h5>
     <div id="count-due-later" class="text-sm text-red-600 font-semibold">
-        <%= dueLaterCount %>
+        <%= dueLater.length %>
     </div>
     </div>
     <ul class="list-none">
     
-        <% allTodos.forEach((todo)=> {
-            if (!todo.completed && todo.dueDate > new Date().toISOString().split("T")[0]) { %>
+        <% dueLater.forEach((todo)=> { %>
                 <li class="Todo-Item flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-200">
                     <div class="flex">
                         <input type="checkbox" id="todo-check-<%= todo.id %>" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border" <%=todo.completed?"checked":""%> onclick="updateTodo(<%=todo.id%>,this.checked)">
@@ -82,19 +77,17 @@
     
                     </div>
                 </li>
-                <% } %>
-                    <% }) %>
+        <% }); %>
     </ul>
     <div class="flex items-center">
         <h5 class="mr-2">Completed Items</h5>
         <div id="count-completed" class="text-sm text-red-600 font-semibold">
-            <%= completedCount %>
+            <%= completed.length %>
         </div>
     </div>
     <ul class="list-none">
     
-        <% allTodos.forEach((todo)=> {
-            if (todo.completed) { %>
+        <% completed.forEach((todo)=> { %>
             <li class="Todo-Item flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-200">
                 <div class="flex">
                     <input type="checkbox" id="todo-check-<%= todo.id %>"
@@ -113,8 +106,7 @@
     
                 </div>
             </li>
-            <% } %>
-                <% }) %>
+            <% }); %>
     </ul>
 
 </div>

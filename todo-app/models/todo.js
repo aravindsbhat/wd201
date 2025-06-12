@@ -9,42 +9,47 @@ module.exports = (sequelize, DataTypes) => {
      */
     // eslint-disable-next-line no-unused-vars
     static associate(models) {
-      // define association here
+      Todo.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
     }
 
-    static async overdueCount() {
+    static async overdue(userId) {
       const today = new Date().toISOString().split("T")[0];
-      return await this.count({
+      return await this.findAll({
         where: {
           completed: false,
           dueDate: { [Op.lt]: today },
+          userId,
         },
       });
     }
 
-    static async dueTodayCount() {
+    static async dueToday(userId) {
       const today = new Date().toISOString().split("T")[0];
-      return await this.count({
+      return await this.findAll({
         where: {
           completed: false,
           dueDate: today,
+          userId,
         },
       });
     }
 
-    static async dueLaterCount() {
+    static async dueLater(userId) {
       const today = new Date().toISOString().split("T")[0];
-      return await this.count({
+      return await this.findAll({
         where: {
           completed: false,
           dueDate: { [Op.gt]: today },
+          userId,
         },
       });
     }
 
-    static async completedCount() {
-      return await this.count({
-        where: { completed: true },
+    static async completed(userId) {
+      return await this.findAll({
+        where: { completed: true, userId },
       });
     }
 
@@ -54,11 +59,12 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static addTodo({ title, dueDate }) {
+    static addTodo({ title, dueDate, userId }) {
       return this.create({
         title: title,
         dueDate: dueDate,
         completed: false,
+        userId,
       });
     }
 
@@ -66,10 +72,11 @@ module.exports = (sequelize, DataTypes) => {
       return await this.update({ completed: comp });
     }
 
-    static async remove(id) {
+    static async remove(id, userId) {
       return await this.destroy({
         where: {
           id,
+          userId,
         },
       });
     }
@@ -80,9 +87,19 @@ module.exports = (sequelize, DataTypes) => {
   }
   Todo.init(
     {
-      title: DataTypes.STRING,
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: true,
+          len: 5,
+        },
+      },
       dueDate: DataTypes.DATEONLY,
-      completed: DataTypes.BOOLEAN,
+      completed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
