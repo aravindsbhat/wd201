@@ -105,6 +105,9 @@ app.get("/todos", connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
 });
 
 app.get("/", async (req, res) => {
+  if (req.user) {
+    return res.redirect("/todos");
+  }
   res.render("index", {
     title: "Todo Application",
     csrfToken: req.csrfToken(),
